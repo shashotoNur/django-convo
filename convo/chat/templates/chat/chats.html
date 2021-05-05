@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<h2>Chats</h2>
+    {% for thread in threads %}
+        {% if thread.new_msg %}
+            <div class="card mt-5 mr-auto ml-auto rounded bg-light" style="width: 50rem;">
+                <a href="{% url 'chat:chat' thread.profile.user.username %}">
+                    {% if thread.profile.image is not None %}
+                        <img class="card-img-top p-sm-2" src="{{ thread.profile.image.url }}"/>
+                    {% endif %}
+                    <div class="card-body text-dark">
+                        <p class="card-text">{{ thread.profile.user }}</p>
+                        Last talked: <p class="card-text">{{ thread.last_msg_time }}</p>
+                    </div>
+                </a>
+            </div>
+        {% else %}
+            <div class="card mt-5 mr-auto ml-auto rounded bg-dark" style="width: 50rem;">
+                <a href="{% url 'chat:chat' thread.profile.user.username %}">
+                    {% if thread.profile.image is not None %}
+                        <img class="card-img-top p-sm-2" src="{{ thread.profile.image.url }}"/>
+                    {% endif %}
+                    <div class="card-body text-light">
+                        <p class="card-text">{{ thread.profile.user }}</p>
+                        Last talked: <p class="card-text">{{ thread.last_msg_time }}</p>
+                    </div>
+                </a>
+            </div>
+        {% endif %}
+    {% empty %}
+        <h5 class="m-auto p-5">None</h5>
+    {% endfor %}
+{% endblock %}

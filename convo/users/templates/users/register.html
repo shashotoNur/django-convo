@@ -1,0 +1,59 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block body %}
+
+    <h2>Register</h2>
+
+    {% if message %}
+        <div>{{ message }}</div>
+    {% endif %}
+    <hr>
+
+    <form action="{% url 'users:register' %}" method="post">
+        {% csrf_token %}
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1"></span>
+          </div>
+          <input type="text" name="name" class="form-control" placeholder="Name" aria-label="Name" aria-describedby="basic-addon1">
+      </div>
+      <div>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="basic-addon1">@</span>
+            </div>
+            <input type="text" name="username" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+        </div>
+        <div>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="basic-addon1"></span>
+            </div>
+            <input type="email" name="email" class="form-control" placeholder="Email Address" aria-label="Email Address" aria-describedby="basic-addon1">
+        </div>
+        <div>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="basic-addon1"></span>
+            </div>
+            <input type="password" name="password" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1">
+        </div>
+        <div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon1"></span>
+                </div>
+                <input type="password" name="confirmation" class="form-control" placeholder="Confirm Password" aria-label="Confirm Password" aria-describedby="basic-addon1">
+            </div>
+        <div>
+        <input class="btn btn-secondary" type="submit" value="Register">
+    </form>
+
+    <hr>
+    Already have an account? <a href="{% url 'users:login' %}">Log In here.</a>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static './register.js' %}"></script>
+{% endblock %}

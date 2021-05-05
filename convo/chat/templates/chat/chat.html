@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block body %}
+    <input id="last-page" type="hidden" value="{{ last_page }}">
+    <input id="user" type="hidden" value="{{ user.username }}">
+    {% if chats_page.has_previous %}
+        <a class="text-dark" href="?page={{ chats_page.previous_page_number }}">
+            Previous chats...
+        </a>
+        <input id="prev-page" type="hidden" value="{{ chats_page.previous_page_number }}">
+    {% else %}
+        <input id="prev-page" type="hidden" value="0">
+    {% endif %}
+    <div class="container">
+        {% for chat in chats_page %}
+            {% if chat.sender == user %}
+                <div class="row">
+                    <div class="col-sm"></div>
+                    <div class="card bg-light col-sm m-sm-2 rounded">
+                        <p class="card-body text-right">{{ chat.message }}</p>
+                    </div>
+                </div>
+            {% elif chat.sender != user %}
+                <div class="row">
+                    <div class="card text-white bg-dark col-sm m-sm-2 rounded">
+                        <p class="card-body">{{ chat.message }}</p>
+                    </div>
+                    <div class="col-sm"></div>
+                </div>
+            {% endif %}
+
+        {% empty %}
+            <h4><strong>Start a chat!</strong></h4>
+        {% endfor %}
+
+        <div id="chat-holder">
+            <!--New messages go here-->
+        </div>
+    </div>
+    {% if chats_page.has_next %}
+        <a class="text-dark" href="?page={{ chats_page.next_page_number }}">
+            More chats...
+        </a>
+    {% endif %}
+    <br><br><br><br><br><br><br>
+
+    <div id="form-div" class="fixed-bottom p-1 text-light bg-dark">
+        <form style="float: right !important;" id="form" action="{% url 'chat:chat' other_user %}" onsubmit="postTheData()" method="post">
+            {% csrf_token %}
+            <textarea type="text" rows="4" cols="50" id="root" placeholder="What's on your mind?"></textarea>
+            <div class="row ml-sm-4 mr-sm-4">
+                <input class="btn btn-secondary btn-sm col-sm" type="submit" value="Send" id="sendBtn" onclick="postTheData()">
+                <div class="col-sm"></div>
+                <input class="btn btn-outline-danger btn-sm col-sm" type="button" value="BTW Off" id="switchBtn" onclick="switchMode()">
+                <div class="col-sm" id="space-div" style="display: none;"></div>
+                <input class="btn btn-secondary btn-sm col-sm" type="button" value="Speak" id="speakBtn" onclick="switchRecogState()" style="display: none;">
+            </div>
+        </form>
+    </div>
+
+{% endblock %}
+
+{% block script %}
+    <script src="{% static './chat.js' %}"></script>
+{% endblock %}

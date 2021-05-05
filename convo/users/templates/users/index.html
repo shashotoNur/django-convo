@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    <div class="card">
+        <div class="card-header">
+            <h1>Convo</h1>
+        </div>
+        <div class="card-body">
+          <blockquote class="blockquote mb-0">
+            <p>This is a django chat application integrated with the freedom of chatting either by text or voice as per each of the user's convenience</p>
+            <footer class="blockquote-footer">
+                {% if not user.is_authenticated %}
+                    <p><a href="{% url 'users:register' %}">Join</a> now if you haven't already.</p>
+                    <p>Or simply just <a href="{% url 'users:login' %}">log in</a> and strike up a conversation!</p>
+                {% endif %}
+            </footer>
+          </blockquote>
+        </div>
+      </div>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+    <h2>Login</h2>
+
+    {% if message %}
+        <div>{{ message }}</div>
+    {% endif %}
+    <hr>
+
+    <form action="{% url 'users:login' %}" method="post">
+        {% csrf_token %}
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="basic-addon1">@</span>
+            </div>
+            <input type="text" name="username" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+          </div>
+        <div>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1"></span>
+            </div>
+            <input type="password" name="password" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1">
+            </div>
+        <input class="btn btn-secondary" type="submit" value="Login">
+    </form>
+
+    <hr>
+    <p>Don't have an account? <a href="{% url 'users:register' %}">Register here.</a>
+    </p>
+{% endblock %}

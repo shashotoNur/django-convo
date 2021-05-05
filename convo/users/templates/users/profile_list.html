@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+    <h2>{{ msg }}</h2>
+
+    {% if paginated_profiles.has_previous %}
+        <a href="?page={{ paginated_profiles.previous_page_number }}">previous</a>
+    {% endif %}
+
+    {% for profile in paginated_profiles %}
+        <a href="{% url 'users:profile' profile.user %}">
+            <div class="card mt-5 mr-auto ml-auto rounded" style="width: 50rem;">
+                {% if profile.image is not None %}
+                    <img class="card-img-top" src="{{ profile.image.url }}"/>
+                {% endif %}
+                <div class="card-body">
+                    <p class="card-text">{{ profile.user }}</p>
+                    {% if profile.address is not None %}
+                        <p class="card-text">{{ profile.address }}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </a>
+    {% empty %}
+        <h5 class="m-auto p-5">None</h5>
+    {% endfor %}
+
+    {% if paginated_profiles.has_next %}
+    <a href="?page={{ paginated_profiles.next_page_number }}">next</a>
+    {% endif %}
+
+{% endblock %}

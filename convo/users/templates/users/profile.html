@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block body %}
+    <h1>Profile</h1>
+    <div>
+        <img src="{{ profile.image.url }}" style="width:50%;"/>
+    </div>
+    <h5 class="p-2" id="name">{{ profile.name }}</h5>
+    <br><br>
+    <div>
+        <h4><b>Username:</b></h4><p id="username">{{ profile.user.username }}</p>
+        {% if profile.bio is not None %}
+            <h4><b>Bio:</b></h4> <div id="profile-bio">{{ profile.bio }}</div>
+        {% endif %}
+        <br>
+        {% if profile.gender is not None %}
+            <h4><b>Gender:</b></h4> <div id="profile-gender">{{ profile.gender }}</div>
+        {% endif %}
+        <br>
+        {% if profile.address is not None %}
+        <h4><b>Address:</b></h4> <div id="profile-address">{{ profile.address }}</div>
+        {% endif %}
+
+        {% if other_user == user %}
+        <br>
+            <form class="text-light bg-secondary" style="display: none; max-width: 50%;" id="profile-form" action="{% url 'users:profile' other_user %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <p>Image: </p>{{ form.image }}
+                <hr>
+                <p>Gender: </p>{{ form.gender }}
+                <hr>
+                <p>Bio: </p>{{ form.bio }}
+                <hr>
+                <p>Address: </p>{{ form.address }}
+                <br>
+                <input class="btn btn-dark" type="submit" value="Update">
+            </form>
+            <br>
+            <div class="btn btn-dark" id="edit" onclick="profileEdit()" class="text-primary">Edit</div>
+        {% else %}
+            <br>
+            <div id="btn-div">
+                {% csrf_token %}
+                    <input type="button" id="btn" class="btn btn-secondary" name="button" onclick="postButton('btn')" value="{{ button }}">
+                {% if button == 'Accept' %}
+                    <input type="button" id="btn2" class="btn btn-secondary" name="button2" onclick="postButton('btn2')" value="Reject">
+                {% elif button == 'Unfriend' %}
+                    <a id="chat-btn" class="btn btn-secondary mr-sm-2" href="{% url 'chat:chat' other_user.username %}">
+                        Chat
+                    </a>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static './profile.js' %}"></script>
+{% endblock %}

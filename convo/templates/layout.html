@@ -1,0 +1,62 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{% block title %}Convo{% endblock %}</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link href="{% static './styles.css' %}" rel="stylesheet">
+    </head>
+    <body>
+        <!-- navigation bar start -->
+        <nav class=" navbar navbar-expand-lg navbar-dark bg-dark p-3" style="background-color: #e3f2fd;">
+            <div id="navbarTogglerDemo01">
+                <div class="nav-item dropdown">
+                    <button class="btn btn-secondary dropdown-toggle m-1" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdownMenuLink">
+                        {% if user.is_authenticated %}
+                            <a class="dropdown-item text-light bg-secondary" href="{% url 'users:profile' user %}">{{ user.username }}</a>
+                            <a class="dropdown-item text-light bg-dark" id="chats" href="{% url 'chat:chats' %}">Chats</a>
+                            <a class="dropdown-item text-light bg-dark" href="{% url 'users:friends' %}">Friends</a>
+                            <a class="dropdown-item text-light bg-dark" id="requests" href="{% url 'users:requests' %}">Requests</a>
+                            <div class="dropdown-divider"></div>
+                            <form class="dropdown-item text-light bg-dark" action="{% url 'users:logout' %}" method="post">
+                                {% csrf_token %}
+                                <button class="dropdown-item text-light bg-dark" type="submit">Logout</button>
+                            </form>
+                        {% else %}
+                            <strong class="dropdown-item text-light bg-secondary">(Not signed in)</strong>
+                            <a class="dropdown-item text-light bg-dark" href="{% url 'users:login' %}">Login</a>
+                            <a class="dropdown-item text-light bg-dark" href="{% url 'users:register' %}">Register</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <a class="navbar-brand ml-3" href="{% url 'users:index' %}">Convo</a>
+            <div class="navbar-collapse"></div>
+            <form class="form-inline" action="{% url 'users:search' %}" method="GET">
+                {% csrf_token %}
+                <input class="form-control mr-sm-2" type="text" name="q" placeholder="Look for a friend" />
+                <input type="hidden" name="path" value="{{ request.path }}">
+                <button type="submit" class="btn btn-outline-primary">Search</button>
+            </form>
+        </nav>
+        <!-- navigation bar end -->
+
+        <!-- main body start -->
+        <div class="rounded p-3">
+            {% block body %}
+            {% endblock %}
+        </div>
+        <!-- main body end -->
+
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+        <script src="{% static './index.js' %}"></script>
+        {% block script %}
+        {% endblock %}
+    </body>
+</html>

@@ -1,0 +1,34 @@
+*
+{
+    font-family: ubuntu;
+}
+
+#id_image
+{
+    border: none;
+}
+
+#profile-form {
+    margin-top: 60px;
+    border: 1px solid grey;
+    border-radius: 2%;
+    padding: 20px;
+}
+
+#profile-form input, #profile-form textarea{
+    display: block;
+    margin: 20px 0 0px 0;
+    padding: 10px;
+}
+
+#profile-form textarea
+{
+    max-height: 7rem;
+    max-width: 70rem;
+}
+
+#id_message
+{
+    max-height: 7rem;
+    max-width: 70rem;
+}
